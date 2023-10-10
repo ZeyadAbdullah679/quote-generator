@@ -3,4 +3,6 @@
     <string name="click_here_to_view_favourite_quotes">Click Here To View Favourite Quotes</string>
     <string name="back_to_home_screen">Back To Home Screen</string>
     <string name="generate_another_quote">Generate Another Quote</string>
+    <string name="remove_from_favourite">Remove From Favourite</string>
+    <string name="type_something_here_to_search">Type Something Here To Search..</string>
 </resources>

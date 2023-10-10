@@ -27,27 +27,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.quotegenerator.R
-import com.example.quotegenerator.ui.FavouriteViewModel
+import com.example.quotegenerator.ui.Quote
 import com.example.quotegenerator.ui.theme.QuoteGeneratorTheme
 import com.example.quotegenerator.ui.theme.primary
 import com.example.quotegenerator.ui.theme.primaryContainer
 
 @Composable
 fun QuoteCard(
-    viewModel: FavouriteViewModel,
-    cropTop: Boolean = true,
+    quote: Quote,
+    isListItem: Boolean = false,
     onClickFavourite: () -> Unit,
     onClickGenerate: () -> Unit,
+    onFavouriteItemListClick: () -> Unit,
 ) {
-    val quote = viewModel.quote.value
     Card(
         colors = CardDefaults.cardColors(
             containerColor = primaryContainer
         ),
-        shape = if (!cropTop) RoundedCornerShape(
+        shape = if (isListItem)
+            RoundedCornerShape(6.dp)
+        else RoundedCornerShape(
             bottomStart = 6.dp,
             bottomEnd = 6.dp
-        ) else RoundedCornerShape(6.dp),
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -75,33 +77,57 @@ fun QuoteCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Button(
-                    onClick = onClickGenerate,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = primary
-                    ),
-                    shape = RoundedCornerShape(bottomStart = 6.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.generate_another_quote),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = primaryContainer
-                    )
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-                OutlinedButton(
-                    onClick = onClickFavourite,
-                    border = ButtonDefaults.outlinedButtonBorder.copy(
-                        width = 2.dp,
-                        brush = SolidColor(primary)
-                    ),
-                    shape = RoundedCornerShape(bottomEnd = 6.dp),
-                ) {
-                    Icon(
-                        painterResource(id = if (quote.isFavourite) R.drawable.favorite_fill else R.drawable.favorite),
-                        contentDescription = "Favourite",
-                        tint = primary
-                    )
+                if (isListItem) {
+                    OutlinedButton(
+                        onClick = onFavouriteItemListClick,
+                        border = ButtonDefaults.outlinedButtonBorder.copy(
+                            width = 2.dp,
+                            brush = SolidColor(primary)
+                        ),
+                        shape = RoundedCornerShape(bottomEnd = 6.dp, bottomStart = 6.dp),
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.favorite),
+                            contentDescription = "Favourite",
+                            tint = primary
+                        )
+                        Text(
+                            text = stringResource(R.string.remove_from_favourite),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = primary,
+                            modifier = Modifier.padding(top = 1.3.dp, start = 2.dp)
+                        )
+                    }
+                } else {
+                    Button(
+                        onClick = onClickGenerate,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = primary
+                        ),
+                        shape = RoundedCornerShape(bottomStart = 6.dp),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.generate_another_quote),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = primaryContainer,
+                            modifier = Modifier.padding(2.8.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    OutlinedButton(
+                        onClick = onClickFavourite,
+                        border = ButtonDefaults.outlinedButtonBorder.copy(
+                            width = 2.dp,
+                            brush = SolidColor(primary)
+                        ),
+                        shape = RoundedCornerShape(bottomEnd = 6.dp),
+                    ) {
+                        Icon(
+                            painterResource(id = if (quote.isFavourite) R.drawable.favorite_fill else R.drawable.favorite),
+                            contentDescription = "Favourite",
+                            tint = primary
+                        )
+                    }
                 }
             }
         }
@@ -113,9 +139,26 @@ fun QuoteCard(
 fun QuoteCardPreview() {
     QuoteGeneratorTheme {
         QuoteCard(
-            viewModel = FavouriteViewModel(),
+            quote = Quote(1, "This is Quote", "Me", true),
+            isListItem = false,
             onClickFavourite = {},
-            onClickGenerate = {}
+            onClickGenerate = {},
+            onFavouriteItemListClick = {}
+        )
+    }
+}
+
+
+@Preview
+@Composable
+fun QuoteCardItemListPreview() {
+    QuoteGeneratorTheme {
+        QuoteCard(
+            quote = Quote(1, "This is Quote", "Me", true),
+            isListItem = true,
+            onClickFavourite = {},
+            onClickGenerate = {},
+            onFavouriteItemListClick = {}
         )
     }
 }

@@ -19,7 +19,7 @@ val Typography = Typography(
     bodySmall = TextStyle(
         fontFamily = FontFamily(Font(R.font.gemu)),
         fontSize = 22.sp,
-        fontWeight = FontWeight(700),
+        fontWeight = FontWeight(1000),
         color = subFont,
     ),
     /* Other default text styles to override
