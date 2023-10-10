@@ -36,9 +36,10 @@ import com.example.quotegenerator.ui.theme.primaryContainer
 fun QuoteCard(
     quote: Quote,
     isListItem: Boolean = false,
-    onClickFavourite: () -> Unit,
+    onClickFavourite: () -> Unit = {},
     onClickGenerate: () -> Unit,
-    onFavouriteItemListClick: () -> Unit,
+    onFavouriteItemListClick: () -> Unit = {},
+    modifier: Modifier,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -50,7 +51,7 @@ fun QuoteCard(
             bottomStart = 6.dp,
             bottomEnd = 6.dp
         ),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
@@ -143,7 +144,8 @@ fun QuoteCardPreview() {
             isListItem = false,
             onClickFavourite = {},
             onClickGenerate = {},
-            onFavouriteItemListClick = {}
+            onFavouriteItemListClick = {},
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }
@@ -158,7 +160,8 @@ fun QuoteCardItemListPreview() {
             isListItem = true,
             onClickFavourite = {},
             onClickGenerate = {},
-            onFavouriteItemListClick = {}
+            onFavouriteItemListClick = {},
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }

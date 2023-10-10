@@ -17,7 +17,7 @@ class FavouriteViewModel : ViewModel() {
         getRandomQuote()
     }
 
-    private fun getRandomQuote() {
+    fun getRandomQuote() {
 
     }
 

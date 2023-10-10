@@ -10,7 +10,8 @@ android {
     defaultConfig {
         applicationId "com.example.quotegenerator"
         minSdk 24
-        targetSdk 33
+        targetSdk = 33
+        compileSdkVersion = "android-34"
         versionCode 1
         versionName "1.0"
 
@@ -63,4 +64,16 @@ dependencies {
     androidTestImplementation libs.ui.test.junit4
     debugImplementation libs.ui.tooling
     debugImplementation libs.ui.test.manifest
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // Retrofit
+    implementation(libs.retrofit)
+    // Retrofit with Kotlin serialization Converter
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
+    // Kotlin serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.navigation.compose)
 }
