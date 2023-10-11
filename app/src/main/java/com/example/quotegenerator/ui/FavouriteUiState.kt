@@ -2,6 +2,7 @@ package com.example.quotegenerator.ui
 
 data class FavouriteUiState(
     val favouriteQuotes: List<Quote> = emptyList(),
+    val query: String = ""
 )
 
 data class Quote(

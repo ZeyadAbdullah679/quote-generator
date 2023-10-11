@@ -35,11 +35,11 @@ import com.example.quotegenerator.ui.theme.primaryContainer
 @Composable
 fun QuoteCard(
     quote: Quote,
+    modifier: Modifier = Modifier,
     isListItem: Boolean = false,
     onClickFavourite: () -> Unit = {},
-    onClickGenerate: () -> Unit,
-    onFavouriteItemListClick: () -> Unit = {},
-    modifier: Modifier,
+    onClickGenerate: () -> Unit = {},
+    onClickRemoveFavourite: (Quote) -> Unit = {},
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -80,7 +80,7 @@ fun QuoteCard(
             ) {
                 if (isListItem) {
                     OutlinedButton(
-                        onClick = onFavouriteItemListClick,
+                        onClick = { onClickRemoveFavourite(quote) },
                         border = ButtonDefaults.outlinedButtonBorder.copy(
                             width = 2.dp,
                             brush = SolidColor(primary)
@@ -111,7 +111,7 @@ fun QuoteCard(
                             text = stringResource(R.string.generate_another_quote),
                             style = MaterialTheme.typography.bodySmall,
                             color = primaryContainer,
-                            modifier = Modifier.padding(2.8.dp)
+                            modifier = Modifier.padding(2.5.dp)
                         )
                     }
                     Spacer(modifier = Modifier.width(10.dp))
@@ -144,7 +144,7 @@ fun QuoteCardPreview() {
             isListItem = false,
             onClickFavourite = {},
             onClickGenerate = {},
-            onFavouriteItemListClick = {},
+            onClickRemoveFavourite = {},
             modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
@@ -160,7 +160,7 @@ fun QuoteCardItemListPreview() {
             isListItem = true,
             onClickFavourite = {},
             onClickGenerate = {},
-            onFavouriteItemListClick = {},
+            onClickRemoveFavourite = {},
             modifier = Modifier.padding(horizontal = 16.dp)
         )
     }

@@ -1,8 +1,6 @@
 package com.example.quotegenerator.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardActionScope
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,7 +26,6 @@ fun SearchTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onSearchClick: (KeyboardActionScope.() -> Unit)?
 ) {
     OutlinedTextField(
         value = value,
@@ -45,12 +42,12 @@ fun SearchTextField(
             imeAction = ImeAction.Search
         ),
         label = {
-            if (value == "")
-                Text(
-                    text = stringResource(R.string.type_something_here_to_search),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = subFont
-                )
+
+            Text(
+                text = stringResource(R.string.type_something_here_to_search),
+                style = MaterialTheme.typography.bodySmall,
+                color = subFont
+            )
         },
         trailingIcon = {
             IconButton(
@@ -64,9 +61,6 @@ fun SearchTextField(
                 }
             }
         },
-        keyboardActions = KeyboardActions(
-            onSearch = onSearchClick
-        )
     )
 }
 
@@ -75,7 +69,7 @@ fun SearchTextField(
 @Composable
 fun SearchTextFieldPreview() {
     QuoteGeneratorTheme {
-        SearchTextField(value = "", onValueChange = {}, onSearchClick = {})
+        SearchTextField(value = "", onValueChange = {})
     }
 }
 

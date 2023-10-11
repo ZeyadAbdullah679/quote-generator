@@ -28,4 +28,16 @@ class FavouriteViewModel : ViewModel() {
     private fun reset() {
 
     }
+
+    fun addFavouriteQuote() {
+
+    }
+
+    fun onSearchChange(query: String) {
+
+    }
+
+    fun removeFavouriteQuote(quote: Quote) {
+
+    }
 }

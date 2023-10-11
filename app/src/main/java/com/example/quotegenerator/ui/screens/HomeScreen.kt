@@ -29,7 +29,8 @@ fun HomeScreen(
     randomQuote: Quote,
     onFavouriteClick: () -> Unit,
     favouriteQuotesCount: Int,
-    onClickGenerate: () -> Unit
+    onClickGenerate: () -> Unit,
+    onFavouriteQuoteClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -61,7 +62,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.padding(10.dp))
         QuoteCard(
             quote = randomQuote,
-            onClickFavourite = onFavouriteClick,
+            onClickFavourite = onFavouriteQuoteClick,
             onClickGenerate = onClickGenerate,
             modifier = Modifier.padding(horizontal = 20.dp)
         )
@@ -77,7 +78,8 @@ fun HomeScreenPreview() {
             randomQuote = Quote(1, "This is Quote", "Me", true),
             onFavouriteClick = {},
             favouriteQuotesCount = 0,
-            onClickGenerate = {}
+            onClickGenerate = {},
+            onFavouriteQuoteClick = {}
         )
     }
 }

@@ -23,7 +23,7 @@ fun QuoteApp(
     navController: NavHostController = rememberNavController()
 ) {
     val randomQuote = viewModel.quote.value
-    val favouriteQuotes = viewModel.uiState.value.favouriteQuotes
+    val uiFavState = viewModel.uiState.value
     NavHost(
         navController = navController,
         startDestination = QuoteScreen.Home.name,
@@ -37,17 +37,27 @@ fun QuoteApp(
                 onFavouriteClick = {
                     navController.navigate(QuoteScreen.Favourite.name)
                 },
-                favouriteQuotesCount = favouriteQuotes.size,
+                favouriteQuotesCount = uiFavState.favouriteQuotes.size,
                 onClickGenerate = {
                     viewModel.getRandomQuote()
+                },
+                onFavouriteQuoteClick = {
+                    viewModel.addFavouriteQuote()
                 }
             )
         }
         composable(QuoteScreen.Favourite.name) {
             FavouriteScreen(
-                favouriteQuotes = favouriteQuotes,
+                favouriteQuotes = uiFavState.favouriteQuotes,
+                query = uiFavState.query,
                 onBackBannerClick = {
                     navController.navigate(QuoteScreen.Home.name)
+                },
+                onSearchChange = {
+                    viewModel.onSearchChange(it)
+                },
+                onClickRemoveFavourite = {
+                    viewModel.removeFavouriteQuote(it)
                 }
             )
         }
