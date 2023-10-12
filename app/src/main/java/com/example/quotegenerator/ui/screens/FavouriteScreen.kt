@@ -40,7 +40,7 @@ fun FavouriteScreen(
         }
 
         itemsIndexed(
-            items = uiFavState.favouriteQuotes
+            items = if (uiFavState.query.isEmpty()) uiFavState.favouriteQuotes else viewModel.searchFavState.value
         ) { _, item ->
             QuoteCard(
                 quote = item,

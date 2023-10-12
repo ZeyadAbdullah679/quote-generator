@@ -9,26 +9,17 @@ import com.example.quotegenerator.network.QuoteApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-sealed interface QuoteState {
-    object Success : QuoteState
-    object Error : QuoteState
-    object Loading : QuoteState
-    object Empty : QuoteState
-}
 
 class FavouriteViewModel : ViewModel() {
 
     private val _uiFavState = mutableStateOf(FavouriteUiState())
     val uiFavState: MutableState<FavouriteUiState> = _uiFavState
 
+    private val _searchFavState = mutableStateOf(emptyList<Quote>())
+    val searchFavState = _searchFavState
+
     private val _quote = mutableStateOf(Quote())
     val quote: MutableState<Quote> = _quote
-
-    private val _quoteState: MutableState<QuoteState> = mutableStateOf(QuoteState.Empty)
-    val quoteState: MutableState<QuoteState> = _quoteState
-
-    private val _favouriteQuotesState: MutableState<QuoteState> = mutableStateOf(QuoteState.Empty)
-    val favouriteQuotesState: MutableState<QuoteState> = _favouriteQuotesState
 
 
     init {
@@ -55,7 +46,6 @@ class FavouriteViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             ids.forEach {
                 try {
-                    Log.d("FavouriteViewModel", it)
                     val response = QuoteApi.retrofitService.getQuoteById(it)
                     _uiFavState.value = _uiFavState.value.copy(
                         favouriteQuotes = _uiFavState.value.favouriteQuotes + Quote(
@@ -90,6 +80,14 @@ class FavouriteViewModel : ViewModel() {
 
     fun onSearchChange(query: String) {
         _uiFavState.value = _uiFavState.value.copy(query = query)
+        _searchFavState.value = emptyList()
+        _uiFavState.value.favouriteQuotes.forEach {
+            if ((it.quote.contains(query, ignoreCase = true))
+                or (it.author.contains(query, ignoreCase = true))
+            ) {
+                _searchFavState.value = _searchFavState.value + it
+            }
+        }
     }
 
     fun removeFavouriteQuote(quote: Quote) {
