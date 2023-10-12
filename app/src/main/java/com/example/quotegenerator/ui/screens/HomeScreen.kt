@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.quotegenerator.ui.Quote
+import com.example.quotegenerator.ui.FavouriteViewModel
 import com.example.quotegenerator.ui.components.FavouriteBanner
 import com.example.quotegenerator.ui.components.QuoteCard
 import com.example.quotegenerator.ui.theme.QuoteGeneratorTheme
@@ -26,9 +26,8 @@ import com.example.quotegenerator.ui.theme.tertiaryContainer
 
 @Composable
 fun HomeScreen(
-    randomQuote: Quote,
+    viewModel: FavouriteViewModel,
     onFavouriteClick: () -> Unit,
-    favouriteQuotesCount: Int,
     onClickGenerate: () -> Unit,
     onFavouriteQuoteClick: () -> Unit
 ) {
@@ -52,7 +51,7 @@ fun HomeScreen(
                     .align(Alignment.TopEnd)
             ) {
                 Text(
-                    text = favouriteQuotesCount.toString(),
+                    text = viewModel.uiFavState.value.favouriteQuotes.size.toString(),
                     modifier = Modifier.align(Alignment.Center),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White
@@ -61,7 +60,7 @@ fun HomeScreen(
         }
         Spacer(modifier = Modifier.padding(10.dp))
         QuoteCard(
-            quote = randomQuote,
+            quote = viewModel.quote.value,
             onClickFavourite = onFavouriteQuoteClick,
             onClickGenerate = onClickGenerate,
             modifier = Modifier.padding(horizontal = 20.dp)
@@ -75,9 +74,8 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     QuoteGeneratorTheme {
         HomeScreen(
-            randomQuote = Quote(1, "This is Quote", "Me", true),
+            viewModel = FavouriteViewModel(),
             onFavouriteClick = {},
-            favouriteQuotesCount = 0,
             onClickGenerate = {},
             onFavouriteQuoteClick = {}
         )

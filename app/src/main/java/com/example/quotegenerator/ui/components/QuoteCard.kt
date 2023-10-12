@@ -140,7 +140,7 @@ fun QuoteCard(
 fun QuoteCardPreview() {
     QuoteGeneratorTheme {
         QuoteCard(
-            quote = Quote(1, "This is Quote", "Me", true),
+            quote = Quote("1", "This is Quote", "Me", true),
             isListItem = false,
             onClickFavourite = {},
             onClickGenerate = {},
@@ -156,7 +156,7 @@ fun QuoteCardPreview() {
 fun QuoteCardItemListPreview() {
     QuoteGeneratorTheme {
         QuoteCard(
-            quote = Quote(1, "This is Quote", "Me", true),
+            quote = Quote("1", "This is Quote", "Me", true),
             isListItem = true,
             onClickFavourite = {},
             onClickGenerate = {},

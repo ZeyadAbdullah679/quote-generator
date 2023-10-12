@@ -3,7 +3,9 @@ package com.example.quotegenerator.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,11 +21,11 @@ enum class QuoteScreen {
 
 @Composable
 fun QuoteApp(
-    viewModel: FavouriteViewModel = FavouriteViewModel(),
+    viewModel: FavouriteViewModel = remember { FavouriteViewModel() },
     navController: NavHostController = rememberNavController()
 ) {
-    val randomQuote = viewModel.quote.value
-    val uiFavState = viewModel.uiState.value
+    val context = LocalContext.current
+    viewModel.getFavouriteQuotes(AppSharedPref(context).getIdsList())
     NavHost(
         navController = navController,
         startDestination = QuoteScreen.Home.name,
@@ -33,31 +35,34 @@ fun QuoteApp(
     ) {
         composable(QuoteScreen.Home.name) {
             HomeScreen(
-                randomQuote = randomQuote,
+                viewModel = viewModel,
                 onFavouriteClick = {
                     navController.navigate(QuoteScreen.Favourite.name)
                 },
-                favouriteQuotesCount = uiFavState.favouriteQuotes.size,
                 onClickGenerate = {
-                    viewModel.getRandomQuote()
+                    viewModel.getQuote()
                 },
                 onFavouriteQuoteClick = {
-                    viewModel.addFavouriteQuote()
+                    if (viewModel.addFavouriteQuote()) {
+                        AppSharedPref(context).addIdToList(viewModel.quote.value.id)
+                    } else {
+                        AppSharedPref(context).removeIdFromList(viewModel.quote.value.id)
+                    }
                 }
             )
         }
         composable(QuoteScreen.Favourite.name) {
             FavouriteScreen(
-                favouriteQuotes = uiFavState.favouriteQuotes,
-                query = uiFavState.query,
+                viewModel = viewModel,
                 onBackBannerClick = {
-                    navController.navigate(QuoteScreen.Home.name)
+                    navController.popBackStack()
                 },
                 onSearchChange = {
                     viewModel.onSearchChange(it)
                 },
                 onClickRemoveFavourite = {
                     viewModel.removeFavouriteQuote(it)
+                    AppSharedPref(context).removeIdFromList(it.id)
                 }
             )
         }

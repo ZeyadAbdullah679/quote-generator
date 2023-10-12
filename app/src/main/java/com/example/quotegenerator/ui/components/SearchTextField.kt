@@ -30,7 +30,7 @@ fun SearchTextField(
     OutlinedTextField(
         value = value,
         textStyle = MaterialTheme.typography.bodySmall,
-        onValueChange = onValueChange,
+        onValueChange = { onValueChange(it) },
         modifier = modifier
             .fillMaxWidth(),
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -41,8 +41,7 @@ fun SearchTextField(
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Search
         ),
-        label = {
-
+        placeholder = {
             Text(
                 text = stringResource(R.string.type_something_here_to_search),
                 style = MaterialTheme.typography.bodySmall,

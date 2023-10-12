@@ -6,8 +6,8 @@ data class FavouriteUiState(
 )
 
 data class Quote(
-    val id: Int = 0,
+    val id: String = "",
     val quote: String = "",
     val author: String = "",
-    val isFavourite: Boolean = false
+    var isFavourite: Boolean = false
 )

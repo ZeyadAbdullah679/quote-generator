@@ -1,11 +1,14 @@
 package com.example.quotegenerator.ui.screens
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.quotegenerator.ui.FavouriteViewModel
 import com.example.quotegenerator.ui.Quote
 import com.example.quotegenerator.ui.components.BackToHomeBanner
 import com.example.quotegenerator.ui.components.QuoteCard
@@ -13,14 +16,16 @@ import com.example.quotegenerator.ui.components.SearchTextField
 
 @Composable
 fun FavouriteScreen(
-    favouriteQuotes: List<Quote>,
-    query: String,
+    viewModel: FavouriteViewModel,
     onBackBannerClick: () -> Unit,
     onSearchChange: (String) -> Unit,
     onClickRemoveFavourite: (Quote) -> Unit
 ) {
+    val uiFavState = viewModel.uiFavState.value
     LazyColumn(
-        modifier = Modifier.padding(20.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
     ) {
         item {
             BackToHomeBanner(
@@ -28,21 +33,21 @@ fun FavouriteScreen(
             )
             Spacer(modifier = Modifier.padding(5.dp))
             SearchTextField(
-                value = query,
-                onValueChange = { onSearchChange(it) },
+                value = uiFavState.query,
+                onValueChange = onSearchChange,
             )
             Spacer(modifier = Modifier.padding(10.dp))
         }
-        items(favouriteQuotes.size) { index ->
+
+        itemsIndexed(
+            items = uiFavState.favouriteQuotes
+        ) { _, item ->
             QuoteCard(
-                quote = favouriteQuotes[index],
-                onClickFavourite = { onClickRemoveFavourite(favouriteQuotes[index]) },
+                quote = item,
                 isListItem = true,
-                onClickRemoveFavourite = { onClickRemoveFavourite(favouriteQuotes[index]) }
+                onClickRemoveFavourite = onClickRemoveFavourite
             )
             Spacer(modifier = Modifier.padding(8.dp))
         }
     }
-
-
 }
