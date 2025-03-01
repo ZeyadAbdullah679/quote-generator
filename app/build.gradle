@@ -73,6 +73,7 @@ dependencies {
     // Retrofit with Kotlin serialization Converter
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
     // Kotlin serialization
     implementation(libs.kotlinx.serialization.json)
 

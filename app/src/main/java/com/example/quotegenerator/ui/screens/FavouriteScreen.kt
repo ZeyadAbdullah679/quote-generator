@@ -1,5 +1,6 @@
 package com.example.quotegenerator.ui.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import com.example.quotegenerator.ui.components.BackToHomeBanner
 import com.example.quotegenerator.ui.components.QuoteCard
 import com.example.quotegenerator.ui.components.SearchTextField
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavouriteScreen(
     viewModel: FavouriteViewModel,
@@ -39,15 +41,32 @@ fun FavouriteScreen(
             Spacer(modifier = Modifier.padding(10.dp))
         }
 
-        itemsIndexed(
-            items = if (uiFavState.query.isEmpty()) uiFavState.favouriteQuotes else viewModel.searchFavState.value
-        ) { _, item ->
-            QuoteCard(
-                quote = item,
-                isListItem = true,
-                onClickRemoveFavourite = onClickRemoveFavourite
-            )
-            Spacer(modifier = Modifier.padding(8.dp))
+        if (uiFavState.query.isEmpty()) {
+            itemsIndexed(
+                items = uiFavState.favouriteQuotes,
+                key = { _, item -> item.id }
+            ) { _, item ->
+                QuoteCard(
+                    quote = item,
+                    isListItem = true,
+                    onClickRemoveFavourite = onClickRemoveFavourite,
+                    modifier = Modifier.animateItemPlacement()
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+            }
+        } else {
+            itemsIndexed(
+                items = viewModel.searchFavState.value,
+                key = { _, item -> item.id }
+            ) { _, item ->
+                QuoteCard(
+                    quote = item,
+                    isListItem = true,
+                    onClickRemoveFavourite = onClickRemoveFavourite,
+                    modifier = Modifier.animateItemPlacement()
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+            }
         }
     }
 }

@@ -85,7 +85,7 @@ class FavouriteViewModel : ViewModel() {
             if ((it.quote.contains(query, ignoreCase = true))
                 or (it.author.contains(query, ignoreCase = true))
             ) {
-                _searchFavState.value = _searchFavState.value + it
+                _searchFavState.value += it
             }
         }
     }
